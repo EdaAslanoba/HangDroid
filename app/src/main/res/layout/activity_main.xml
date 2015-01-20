@@ -26,7 +26,6 @@
 
 
         <!--single player button-->
-
         <Button
             android:id="@+id/buttonTop"
             android:layout_width="wrap_content"
@@ -36,6 +35,7 @@
             android:layout_gravity="center_horizontal"
             android:text="Single Player"
             android:clickable="true"
+            android:onClick="startSinglePlayerGame"
             android:gravity="center"
             android:layout_marginBottom="10dp"
             android:width="150dp"
