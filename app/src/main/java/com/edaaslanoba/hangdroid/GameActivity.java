@@ -3,9 +3,11 @@ package com.edaaslanoba.hangdroid;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 
 public class GameActivity extends ActionBarActivity {
@@ -39,8 +41,10 @@ public class GameActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void startSinglePlayerGame(View v) {
-        Intent myIntent = new Intent(this, GameActivity.class);
-        startActivity(myIntent);
+    public void introduceLetter(View v) {
+        EditText newLetter = (EditText) findViewById(R.id.editTextLetter);
+        String letter = newLetter.getText().toString();
+        Log.d("MYLOG", "The letter is " + letter);
     }
+
 }
