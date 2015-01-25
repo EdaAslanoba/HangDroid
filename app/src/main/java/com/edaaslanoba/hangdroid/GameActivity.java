@@ -50,20 +50,17 @@ public class GameActivity extends ActionBarActivity {
 
     /**
      * retrieve the letter entered in the edit text
+     *
      * @param v (button clicked)
      */
     public void introduceLetter(View v) {
 
         EditText newLetter = (EditText) findViewById(R.id.editTextLetter);
-
         String letter = newLetter.getText().toString();
-
-        Log.d("MYLOG", "The letter is " + letter);
 
         if (letter.length() == 1) {
             checkLetter(letter);
-        }
-        else {
+        } else {
             Toast.makeText(this, "Please enter a letter", Toast.LENGTH_LONG).show();
         }
     }
@@ -75,9 +72,8 @@ public class GameActivity extends ActionBarActivity {
 
         boolean letterGuessed = false;
 
-        for (int ii = 0 ; ii < gameWord.length() ; ii++) {
+        for (int ii = 0; ii < gameWord.length(); ii++) {
             if (gameWord.charAt(ii) == letterIntroduced) {
-                //TODO show the letter
                 Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_LONG).show();
                 letterGuessed = true;
                 displayGuessedLetter(ii, letterIntroduced);
@@ -90,11 +86,11 @@ public class GameActivity extends ActionBarActivity {
     }
 
     //display the letter the player guesses correctly
-    public void displayGuessedLetter (int indexOfLetter, char letterGuessed) {
+    public void displayGuessedLetter(int indexOfLetter, char letterGuessed) {
 
-        LinearLayout layoutLetter = (LinearLayout)findViewById(R.id.layoutLetters);
+        LinearLayout layoutLetter = (LinearLayout) findViewById(R.id.layoutLetters);
 
-        TextView newText = (TextView)layoutLetter.getChildAt(indexOfLetter);
+        TextView newText = (TextView) layoutLetter.getChildAt(indexOfLetter);
 
         newText.setText(Character.toString(letterGuessed));
     }
@@ -102,10 +98,21 @@ public class GameActivity extends ActionBarActivity {
     //display the letter the player guesses wrong
     public void letterFailed(String wrongLetterGuessed) {
 
-        displayWrongLetter(wrongLetterGuessed);
+        TextView wrongLetter = (TextView) findViewById(R.id.textView7);
+        String previouslyGuessedWrongLetter = wrongLetter.getText().toString();
+
+        //if the letter has been guessed before, do not display it again and display an error message
+        //failCounter should not be incremented in this case, do not change the background image
+        for (int ii = 0; ii < previouslyGuessedWrongLetter.length(); ii++) {
+            if (wrongLetterGuessed.charAt(0) == previouslyGuessedWrongLetter.charAt(ii)) {
+                Toast.makeText(this, "Please enter a letter you haven't guessed before", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        wrongLetter.setText(previouslyGuessedWrongLetter + wrongLetterGuessed);
         //every time the player guesses wrong, increment the fail counter
         failCounter++;
-        ImageView newImageView = (ImageView)findViewById(R.id.imageView);
+        ImageView newImageView = (ImageView) findViewById(R.id.imageView);
 
         //every time the player guesses wrong, change the background image - hence: hang the droid
         switch (failCounter) {
@@ -121,19 +128,10 @@ public class GameActivity extends ActionBarActivity {
             case 4:
                 newImageView.setImageResource(R.drawable.hangdroid_4);
                 break;
-            case 5:
+            case 5: //game over
                 newImageView.setImageResource(R.drawable.hangdroid_5);
                 break;
             //TODO GAME OVER
         }
-    }
-
-    //display the letter the player guesses correctly
-    public void displayWrongLetter (String letterFailed) {
-
-        TextView wrongLetter = (TextView)findViewById(R.id.textView7);
-        String previouslyGuessedWrongLetter = wrongLetter.getText().toString();
-        wrongLetter.setText(previouslyGuessedWrongLetter + letterFailed );
-
     }
 }
