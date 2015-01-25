@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +19,7 @@ public class GameActivity extends ActionBarActivity {
 
     String gameWord = "word";
     int failCounter = 0;
+    int guessedLetters = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class GameActivity extends ActionBarActivity {
         EditText newLetter = (EditText) findViewById(R.id.editTextLetter);
         String letter = newLetter.getText().toString();
 
+        newLetter.setText("");
+
         if (letter.length() == 1) {
             checkLetter(letter);
         } else {
@@ -68,20 +72,35 @@ public class GameActivity extends ActionBarActivity {
     //check if the letter introduced by the player exists in the word
     public void checkLetter(String userInputLetter) {
 
-        char letterIntroduced = userInputLetter.charAt(0);
+        //if the button says check letter, keep playing the game
+        Button buttonName = (Button)findViewById(R.id.button);
+        if (buttonName.getText()=="Check letter") {
+            Log.d("MYLOG", "button is check letter");
+            char letterIntroduced = userInputLetter.charAt(0);
 
-        boolean letterGuessed = false;
+            boolean letterGuessed = false;
 
-        for (int ii = 0; ii < gameWord.length(); ii++) {
-            if (gameWord.charAt(ii) == letterIntroduced) {
-                Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_LONG).show();
-                letterGuessed = true;
-                displayGuessedLetter(ii, letterIntroduced);
+            for (int ii = 0; ii < gameWord.length(); ii++) {
+                if (gameWord.charAt(ii) == letterIntroduced) {
+                    Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_LONG).show();
+                    letterGuessed = true;
+                    guessedLetters++;
+                    displayGuessedLetter(ii, letterIntroduced);
+                }
+            }
+
+            if (letterGuessed == false) {
+                letterFailed(Character.toString(letterIntroduced));
+            }
+
+            if (guessedLetters == gameWord.length()) {
+                //guessed all letters:
+                Toast.makeText(this, "YOU WIN", Toast.LENGTH_LONG).show();
+                newGame();
             }
         }
-
-        if (letterGuessed == false) {
-            letterFailed(Character.toString(letterIntroduced));
+        else {
+            newGame();
         }
     }
 
@@ -130,8 +149,39 @@ public class GameActivity extends ActionBarActivity {
                 break;
             case 5: //game over
                 newImageView.setImageResource(R.drawable.hangdroid_5);
+                Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
+                gameOver();
                 break;
-            //TODO GAME OVER
         }
+    }
+
+    public void gameOver() {
+        Button button = (Button)findViewById(R.id.button);
+        button.setText("New Game");
+    }
+
+    public void newGame() {
+
+        //change button name back
+        Button changeButtonName = (Button)findViewById(R.id.button);
+        changeButtonName.setText("Check letter");
+        //clear textView for previously guessed letters
+        TextView textViewFailed = (TextView) findViewById(R.id.textView7);
+        textViewFailed.setText(""); //delete all previously entered letters
+
+        //clear textView for the word to be guessed
+        LinearLayout layoutLetter = (LinearLayout) findViewById(R.id.layoutLetters);
+        for (int ii = 0 ; ii < layoutLetter.getChildCount(); ii++) {
+            TextView newText = (TextView) layoutLetter.getChildAt(ii);
+            newText.setText("_");
+        }
+
+        //clear imageView for hanging the droid background for each wrong letter
+        ImageView newGameImageView = (ImageView) findViewById(R.id.imageView);
+        newGameImageView.setImageResource(R.drawable.hangdroid_0);
+
+        //reset counts
+        guessedLetters = 0;
+        failCounter = 0;
     }
 }
