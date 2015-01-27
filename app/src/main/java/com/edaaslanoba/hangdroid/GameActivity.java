@@ -20,6 +20,7 @@ public class GameActivity extends ActionBarActivity {
     String gameWord = "word";
     int failCounter = 0;
     int guessedLetters = 0;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,34 +73,28 @@ public class GameActivity extends ActionBarActivity {
     //check if the letter introduced by the player exists in the word
     public void checkLetter(String userInputLetter) {
 
-        //if the button says check letter, keep playing the game
-        Button buttonName = (Button)findViewById(R.id.button);
-        if (buttonName.getText()=="Check letter") {
-            Log.d("MYLOG", "button is check letter");
-            char letterIntroduced = userInputLetter.charAt(0);
 
-            boolean letterGuessed = false;
+        char letterIntroduced = userInputLetter.charAt(0);
 
-            for (int ii = 0; ii < gameWord.length(); ii++) {
-                if (gameWord.charAt(ii) == letterIntroduced) {
-                    Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_LONG).show();
-                    letterGuessed = true;
-                    guessedLetters++;
-                    displayGuessedLetter(ii, letterIntroduced);
-                }
-            }
+        boolean letterGuessed = false;
 
-            if (letterGuessed == false) {
-                letterFailed(Character.toString(letterIntroduced));
-            }
-
-            if (guessedLetters == gameWord.length()) {
-                //guessed all letters:
-                Toast.makeText(this, "YOU WIN", Toast.LENGTH_LONG).show();
-                newGame();
+        for (int ii = 0; ii < gameWord.length(); ii++) {
+            if (gameWord.charAt(ii) == letterIntroduced) {
+                Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_LONG).show();
+                letterGuessed = true;
+                guessedLetters++;
+                displayGuessedLetter(ii, letterIntroduced);
             }
         }
-        else {
+
+        if (letterGuessed == false) {
+            letterFailed(Character.toString(letterIntroduced));
+        }
+
+        if (guessedLetters == gameWord.length()) {
+            //guessed all letters:
+            Toast.makeText(this, "YOU WIN", Toast.LENGTH_LONG).show();
+            score++;
             newGame();
         }
     }
@@ -147,31 +142,30 @@ public class GameActivity extends ActionBarActivity {
             case 4:
                 newImageView.setImageResource(R.drawable.hangdroid_4);
                 break;
-            case 5: //game over
+            case 5:
                 newImageView.setImageResource(R.drawable.hangdroid_5);
-                Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
-                gameOver();
+                break;
+            case 6:
+                gameOver(); //game over screen to save score
                 break;
         }
     }
 
     public void gameOver() {
-        Button button = (Button)findViewById(R.id.button);
-        button.setText("New Game");
+        Intent gameOver = new Intent(this, GameOverActivity.class);
+        gameOver.putExtra("POINTS_IDENTIFIER", score); //sending the score to the gameOverActivity
+        startActivity(gameOver);
     }
 
     public void newGame() {
 
-        //change button name back
-        Button changeButtonName = (Button)findViewById(R.id.button);
-        changeButtonName.setText("Check letter");
         //clear textView for previously guessed letters
         TextView textViewFailed = (TextView) findViewById(R.id.textView7);
         textViewFailed.setText(""); //delete all previously entered letters
 
         //clear textView for the word to be guessed
         LinearLayout layoutLetter = (LinearLayout) findViewById(R.id.layoutLetters);
-        for (int ii = 0 ; ii < layoutLetter.getChildCount(); ii++) {
+        for (int ii = 0; ii < layoutLetter.getChildCount(); ii++) {
             TextView newText = (TextView) layoutLetter.getChildAt(ii);
             newText.setText("_");
         }
@@ -184,4 +178,5 @@ public class GameActivity extends ActionBarActivity {
         guessedLetters = 0;
         failCounter = 0;
     }
+
 }
