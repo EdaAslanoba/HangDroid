@@ -14,6 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.charset.MalformedInputException;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+
 
 public class GameActivity extends ActionBarActivity {
 
@@ -21,35 +35,42 @@ public class GameActivity extends ActionBarActivity {
     int failCounter = 0;
     int guessedLetters = 0;
     int score = 0;
+    int wordLength = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+//        setRandomWord();
+        Log.d("MYLOG" , "The new word is: " + gameWord);
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_game, menu);
-        return true;
-    }
+    public void setRandomWord() {
+        //get 4 letter words from a dictionary
+        //create word list from dictionary.txt
+        List<String> words = new ArrayList<String>();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File("dictionary.txt")));
+            String line = "";
+            while ( (line = br.readLine()) != null) {
+                if (line.length() == wordLength) { //4
+                    words.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("An Exception is caught: " + e.getMessage());
         }
 
-        return super.onOptionsItemSelected(item);
-    }*/
+        //now pick a random word from the list
+//        Random rand = new Random();
+//        gameWord = words.get(rand.nextInt(words.size()));
 
+//        words.add("book");
+
+        int randomIndex = (int)(Math.random() * words.size());
+        gameWord = words.get(randomIndex);
+    }
 
     /**
      * retrieve the letter entered in the edit text
@@ -64,9 +85,9 @@ public class GameActivity extends ActionBarActivity {
         newLetter.setText("");
 
         if (letter.length() == 1) {
-            checkLetter(letter);
+            checkLetter(letter.toLowerCase());
         } else {
-            Toast.makeText(this, "Please enter a letter", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please enter a letter", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -80,7 +101,7 @@ public class GameActivity extends ActionBarActivity {
 
         for (int ii = 0; ii < gameWord.length(); ii++) {
             if (gameWord.charAt(ii) == letterIntroduced) {
-                Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Yes, there is a match", Toast.LENGTH_SHORT).show();
                 letterGuessed = true;
                 guessedLetters++;
                 displayGuessedLetter(ii, letterIntroduced);
@@ -119,7 +140,7 @@ public class GameActivity extends ActionBarActivity {
         //failCounter should not be incremented in this case, do not change the background image
         for (int ii = 0; ii < previouslyGuessedWrongLetter.length(); ii++) {
             if (wrongLetterGuessed.charAt(0) == previouslyGuessedWrongLetter.charAt(ii)) {
-                Toast.makeText(this, "Please enter a letter you haven't guessed before", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Please enter a letter you haven't guessed before", Toast.LENGTH_SHORT).show();
                 return;
             }
         }

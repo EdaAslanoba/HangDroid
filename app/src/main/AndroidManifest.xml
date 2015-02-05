@@ -25,6 +25,10 @@
             android:name=".GameOverActivity"
             android:label="@string/title_activity_game_over" >
         </activity>
+        <activity
+            android:name=".ScoresActivity"
+            android:label="@string/title_activity_scores" >
+        </activity>
     </application>
 
 </manifest>

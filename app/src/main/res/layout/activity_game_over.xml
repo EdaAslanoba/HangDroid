@@ -29,7 +29,7 @@
         android:layout_centerInParent="true">
 
         <EditText
-            android:id="@+id/editTextLetter"
+            android:id="@+id/editTextName"
             android:inputType="text"
             android:hint="Insert your name"
             android:maxLength="12"

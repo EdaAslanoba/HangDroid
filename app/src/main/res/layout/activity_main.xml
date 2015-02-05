@@ -71,7 +71,7 @@
             android:textStyle="bold" />
         />
 
-        <!--start game button-->
+        <!--scores button-->
         <Button
             android:id="@+id/buttonBottom"
             android:layout_width="wrap_content"
@@ -81,6 +81,7 @@
             android:layout_gravity="center_horizontal"
             android:text="Scores"
             android:clickable="true"
+            android:onClick="scoresPage"
             android:gravity="center"
             android:layout_marginBottom="10dp"
             android:width="150dp"
