@@ -26,7 +26,6 @@ public class ScoresActivity extends ActionBarActivity {
         textScores.setText(scores);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

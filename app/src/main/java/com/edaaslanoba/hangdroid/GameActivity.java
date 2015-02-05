@@ -176,6 +176,9 @@ public class GameActivity extends ActionBarActivity {
         Intent gameOver = new Intent(this, GameOverActivity.class);
         gameOver.putExtra("POINTS_IDENTIFIER", score); //sending the score to the gameOverActivity
         startActivity(gameOver);
+
+        //finish game activity to back to home page at the end of the game
+        finish();
     }
 
     public void newGame() {

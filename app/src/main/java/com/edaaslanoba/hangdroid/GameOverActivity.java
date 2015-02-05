@@ -48,10 +48,15 @@ public class GameOverActivity extends ActionBarActivity {
 
         SharedPreferences.Editor editor = preferences.edit(); //shared pref. writing
 
-        editor.putString("Scores", name + " " + scoredPoints + " Points\n");
+        String previousScore = preferences.getString("Scores", "");
+
+        editor.putString("Scores", name + " " + scoredPoints + " Points\n" + previousScore);
 
         editor.commit();
 
-        Toast.makeText(this, "SCORE SAVED", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "SCORE SAVED", Toast.LENGTH_SHORT).show();
+
+        //finish activity, so do not stay on the game over page once score is saved
+        finish(); //finish activity, so do not stay on the game over page once score is saved
     }
 }
