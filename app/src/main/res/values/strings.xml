@@ -5,7 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_game">New Game</string>
+    <string name="title_activity_multi_game">New Multi-player Game</string>
     <string name="title_activity_game_over">Game Over</string>
-    <string name="title_activity_scores">ScoresActivity</string>
+    <string name="title_activity_scores">Scores</string>
+    <string name="title_activity_multiplayer">MultiplayerActivity</string>
 
 </resources>

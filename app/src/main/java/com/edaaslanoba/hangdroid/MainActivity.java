@@ -43,6 +43,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(myIntent);
     }
 
+    public void multiplayerPickWord(View v) {
+        Intent myIntent = new Intent(this, MultiplayerActivity.class);
+        startActivity(myIntent);
+    }
+
     public void scoresPage(View v) {
         Intent myIntent = new Intent(this, ScoresActivity.class);
         startActivity(myIntent);
