@@ -12,8 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.util.TooManyListenersException;
 
 
 public class GameOverActivity extends ActionBarActivity {
@@ -41,12 +44,14 @@ public class GameOverActivity extends ActionBarActivity {
         SharedPreferences preferences = getSharedPreferences("MY PREFERENCES", Context.MODE_PRIVATE);
 
         EditText newText = (EditText) findViewById(R.id.editTextName);
-        String name = newText.getText().toString();
+        String name = newText.getText().toString(); //get player's name
 
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = preferences.edit(); //shared pref. writing
 
-        editor.putString("Scores", name + " " + scoredPoints + " Points\n"); //write info
+        editor.putString("Scores", name + " " + scoredPoints + " Points\n");
 
-        editor.commit(); //read info
+        editor.commit();
+
+        Toast.makeText(this, "SCORE SAVED", Toast.LENGTH_LONG).show();
     }
 }

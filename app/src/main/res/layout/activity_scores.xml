@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text=""
-            android:id="@+id/textView9" />
+            android:id="@+id/textViewScores" />
 
     </ScrollView>
 
