@@ -36,7 +36,6 @@ public class GameOverActivity extends ActionBarActivity {
     }
 
     /**
-     *
      * @param v (button clicked)
      */
     public void saveScore(View v) {
